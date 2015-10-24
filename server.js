@@ -32,7 +32,9 @@ serialPort.on('open', function() {
         printer
           .indent(10)
           .printLine(text)
-          .print();
+          .print(function() {
+            console.log('done');
+          });
       });
     });
   });
