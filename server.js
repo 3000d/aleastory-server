@@ -24,6 +24,7 @@ serialPort.on('open', function() {
 
   printer.on('ready', function() {
     io.sockets.on('connection', function(socket) {
+      console.log('client connected');
       socket.on('send-text', function(text) {
         console.log('printing', text);
         printer
