@@ -20,9 +20,11 @@ var server = http.createServer(function(req, res) {
 var io = SocketIO.listen(server);
 
 serialPort.on('open', function() {
+  console.log('serial port opened');
   var printer = new Printer(serialPort);
 
   printer.on('ready', function() {
+    console.log('printer ready');
     io.sockets.on('connection', function(socket) {
       console.log('client connected');
       socket.on('send-text', function(text) {
