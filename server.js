@@ -30,7 +30,7 @@ serialPort.on('open', function() {
       socket.on('send-text', function(text) {
         console.log('printing', text);
         printer
-          .printLine(emove inderemoverrrepieopifdtext)
+          .printLine(text)
           .print(function() {
             console.log('done');
           });
