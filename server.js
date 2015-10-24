@@ -31,7 +31,8 @@ serialPort.on('open', function() {
         console.log('printing', text);
         printer
           .indent(10)
-          .printLine(text);
+          .printLine(text)
+          .print();
       });
     });
   });
