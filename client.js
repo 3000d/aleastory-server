@@ -1,5 +1,5 @@
 (function($) {
-  var socket = io.connect('http://localhost:8080');
+  var socket = io();
 
   $('#send-text__form').on('submit', function(e) {
     e.preventDefault();
