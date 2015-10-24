@@ -30,8 +30,7 @@ serialPort.on('open', function() {
       socket.on('send-text', function(text) {
         console.log('printing', text);
         printer
-          .indent(10)
-          .printLine(text)
+          .printLine(emove inderemoverrrepieopifdtext)
           .print(function() {
             console.log('done');
           });
