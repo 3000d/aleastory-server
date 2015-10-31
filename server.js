@@ -18,7 +18,6 @@ var isPrinterReady = false;
  */
 
 var mongoose = require('mongoose');
-var random = require('mongoose-random');
 var mongoURI = 'mongodb://localhost:27017/aleastory';
 var db = mongoose.connect(mongoURI).connection;
 db.on('error', function(err) { console.log(err.message); });
@@ -26,7 +25,6 @@ db.on('error', function(err) { console.log(err.message); });
 var cookieSchema = mongoose.Schema({
   text: String
 });
-cookieSchema.plugin(random);
 var Cookie = mongoose.model('Cookie', cookieSchema);
 
 db.once('open', function() {
@@ -51,8 +49,6 @@ db.once('open', function() {
       console.log('cookies inserted');
     }
 
-
-    Cookie.syncRandom(function(){});
 
     Cookie.count().exec(function(err, count) {
       console.log(count + ' cookies');
@@ -152,18 +148,20 @@ serialPort.on('error', function() {
  */
 
 var triggerPrint = function() {
-  Cookie.findRandom().limit(10).exec(function(err, cookies) {
+  Cookie.find().exec(function(err, cookies) {
     if(!cookies) {
       console.log('no cookie found :(');
       return;
     }
 
-    console.log('cookie is "' + cookies[0].text + '"');
+    var cookie = cookies[Math.floor(Math.random() * cookies.length)];
+
+    console.log('cookie is "' + cookie.text + '"');
 
     if(isPrinterReady) {
       console.log('printing', text);
       printer
-        .printLine(cookies[0].text)
+        .printLine(cookie.text)
         .printLine('')
         .printLine('')
         .printLine('')
