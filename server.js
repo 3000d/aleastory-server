@@ -45,11 +45,12 @@ db.once('open', function() {
           }
         })
       }
+
+      console.log(cookies.length + ' cookies inserted');
     }
 
 
-    Cookie.syncRandom(function (err, result) {
-    });
+    Cookie.syncRandom();
 
     console.log(Cookie.count().exec(function(err, count) {
       console.log(count + ' cookies');
