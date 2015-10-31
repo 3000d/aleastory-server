@@ -159,7 +159,7 @@ var triggerPrint = function() {
     console.log('cookie is "' + cookie.text + '"');
 
     if(isPrinterReady) {
-      console.log('printing', text);
+      console.log('printing', cookie.text);
       printer
         .printLine(cookie.text)
         .printLine('')
