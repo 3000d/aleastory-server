@@ -150,6 +150,7 @@ serialPort.on('error', function() {
 
 var triggerPrint = function() {
   Cookie.findRandom().limit(1).exec(function(err, cookie) {
+    console.log(cookie);
     console.log('cookie is "' + cookie[0].text + '"');
 
     if(isPrinterReady) {
