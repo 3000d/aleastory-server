@@ -1,16 +1,78 @@
-var http = require('http');
 var fs = require('fs');
 var SocketIO = require('socket.io');
+var SerialPort = require('serialport').SerialPort;
+var port = '/dev/ttyAMA0';
+
+var http = require('http');
 var serveStatic = require('serve-static');
 var finalhandler = require('finalhandler');
-var Gpio = require('onoff').Gpio;
-var SerialPort = require('serialport').SerialPort,
-  serialPort = new SerialPort('/dev/ttyAMA0', {
-    baudrate: 19200
-  });
-var Printer = require('thermalprinter');
 var serve = serveStatic('./');
-var button = new Gpio(21, 'in', 'both');
+
+var Printer = require('thermalprinter');
+var printer;
+var isPrinterReady = false;
+
+
+/**
+ * DATABASE
+ */
+
+var mongoose = require('mongoose');
+var random = require('mongoose-random');
+var mongoURI = 'mongodb://localhost:27017/test';
+var db = mongoose.connect(mongoURI).connection;
+db.on('error', function(err) { console.log(err.message); });
+
+var cookieSchema = mongoose.Schema({
+  text: String
+});
+cookieSchema.plugin(random);
+var Cookie = mongoose.model('Cookie', cookieSchema);
+
+db.once('open', function() {
+  Cookie.find(function(err, cookies) {
+    if(!cookies.length) {
+      var quotes = require('./quotes');
+
+      for(var i = 0; i < quotes.length; i++) {
+        var quote = quotes[i];
+        var cookie = new Cookie({
+          text: quote
+        });
+        cookie.save(function(err) {
+          if(err) {
+            console.log('error, cookie "' + quote + '" not saved');
+          }
+        })
+      }
+    }
+
+
+    Cookie.syncRandom(function (err, result) {
+    });
+
+    console.log(Cookie.count().exec(function(err, count) {
+      console.log(count + ' cookies');
+    }));
+  });
+});
+
+
+
+// get serial port, or default to /dev/ttyAMA0
+process.argv.forEach(function (val, index, array) {
+  if(index == 2) {
+    if(val) {
+      port = val;
+    }
+  }
+});
+
+
+
+/**
+ * HTTP
+ */
 
 var server = http.createServer(function(req, res) {
   fs.readFile('./index.html', 'utf-8', function(err, content) {
@@ -18,34 +80,89 @@ var server = http.createServer(function(req, res) {
     serve(req, res, done);
   });
 });
+server.listen(8081);
+
+
+
+/**
+ * IO
+ */
 
 var io = SocketIO.listen(server);
 
+io.sockets.on('connection', function(socket) {
+  console.log('client connected');
+  socket.on('send-text', function(text) {
+
+  });
+
+  socket.on('print', function() {
+    triggerPrint();
+  });
+});
+
+
+
+/**
+ * SERIAL
+ */
+
+var serialPort = new SerialPort(port, {
+  baudrate: 19200
+});
+
 serialPort.on('open', function() {
   console.log('serial port opened');
-  var printer = new Printer(serialPort);
+  printer = new Printer(serialPort);
 
   printer.on('ready', function() {
     console.log('printer ready');
-    io.sockets.on('connection', function(socket) {
-      console.log('client connected');
-      socket.on('send-text', function(text) {
-        console.log('printing', text);
-        printer
-          .printLine(text)
-          .print(function() {
-            console.log('done');
-          });
-      });
+    isPrinterReady = true;
+
+
+    /**
+     * BUTTON
+     */
+
+    var Gpio = require('onoff').Gpio;
+    var button = new Gpio(21, 'in', 'both');
+
+    button.watch(function(err, value) {
+      if(err) exit();
+      if(value) {
+        triggerPrint();
+      }
     });
   });
 });
 
-button.watch(function(err, value) {
-  if(err) exit();
-  console.log('button pressed !', value);
+serialPort.on('error', function() {
+  console.log('Can\'t open serial port, no printing for you.');
 });
 
 
 
-server.listen(8080);
+
+
+/**
+ * PRINT
+ */
+
+var triggerPrint = function() {
+  Cookie.findRandom().limit(1).exec(function(err, cookie) {
+    console.log('cookie is "' + cookie[0].text + '"');
+
+    if(isPrinterReady) {
+      console.log('printing', text);
+      printer
+        .printLine(cookie[0].text)
+        .printLine('')
+        .printLine('')
+        .printLine('')
+        .print(function() {
+          console.log('done');
+        });
+    }
+  });
+};
+
