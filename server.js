@@ -19,7 +19,7 @@ var isPrinterReady = false;
 
 var mongoose = require('mongoose');
 var random = require('mongoose-random');
-var mongoURI = 'mongodb://localhost:27017/test';
+var mongoURI = 'mongodb://localhost:27017/aleastory';
 var db = mongoose.connect(mongoURI).connection;
 db.on('error', function(err) { console.log(err.message); });
 
@@ -30,6 +30,8 @@ cookieSchema.plugin(random);
 var Cookie = mongoose.model('Cookie', cookieSchema);
 
 db.once('open', function() {
+  Cookie.remove({});
+
   Cookie.find(function(err, cookies) {
     if(!cookies.length) {
       var quotes = require('./quotes');
@@ -39,22 +41,22 @@ db.once('open', function() {
         var cookie = new Cookie({
           text: quote
         });
-        cookie.save(function(err) {
+        cookie.save(function(err, cookies) {
           if(err) {
             console.log('error, cookie "' + quote + '" not saved');
           }
         })
       }
 
-      console.log(cookies.length + ' cookies inserted');
+      console.log('cookies inserted');
     }
 
 
     Cookie.syncRandom(function(){});
 
-    console.log(Cookie.count().exec(function(err, count) {
+    Cookie.count().exec(function(err, count) {
       console.log(count + ' cookies');
-    }));
+    });
   });
 });
 
