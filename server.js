@@ -50,7 +50,7 @@ db.once('open', function() {
     }
 
 
-    Cookie.syncRandom();
+    Cookie.syncRandom(function(){});
 
     console.log(Cookie.count().exec(function(err, count) {
       console.log(count + ' cookies');
