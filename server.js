@@ -3,12 +3,14 @@ var fs = require('fs');
 var SocketIO = require('socket.io');
 var serveStatic = require('serve-static');
 var finalhandler = require('finalhandler');
+var Gpio = require('onoff').Gpio;
 var SerialPort = require('serialport').SerialPort,
   serialPort = new SerialPort('/dev/ttyAMA0', {
     baudrate: 19200
   });
 var Printer = require('thermalprinter');
 var serve = serveStatic('./');
+var button = new Gpio(21, 'in', 'both');
 
 var server = http.createServer(function(req, res) {
   fs.readFile('./index.html', 'utf-8', function(err, content) {
@@ -38,5 +40,12 @@ serialPort.on('open', function() {
     });
   });
 });
+
+button.watch(function(err, value) {
+  if(err) exit();
+  console.log('button pressed !', value);
+});
+
+
 
 server.listen(8080);
