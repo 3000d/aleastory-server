@@ -165,6 +165,9 @@ var triggerPrint = function() {
         .printLine('')
         .printLine('')
         .printLine('')
+        .printLine('')
+        .printLine('')
+        .printLine('')
         .print(function() {
           console.log('done');
         });
