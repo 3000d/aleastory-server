@@ -152,11 +152,7 @@ serialPort.on('error', function() {
  */
 
 var triggerPrint = function() {
-  Cookie.find().limit(1).exec(function(err, cookie) {
-    console.log(cookie);
-  });
-
-  Cookie.findRandom().limit(1).exec(function(err, cookies) {
+  Cookie.findRandom().limit(10).exec(function(err, cookies) {
     if(!cookies) {
       console.log('no cookie found :(');
       return;
