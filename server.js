@@ -12,49 +12,51 @@ var Printer = require('thermalprinter');
 var printer;
 var isPrinterReady = false;
 
+var cookies = require('./quotes');
+
 
 /**
  * DATABASE
  */
 
-var mongoose = require('mongoose');
-var mongoURI = 'mongodb://localhost:27017/aleastory';
-var db = mongoose.connect(mongoURI).connection;
-db.on('error', function(err) { console.log(err.message); });
-
-var cookieSchema = mongoose.Schema({
-  text: String
-});
-var Cookie = mongoose.model('Cookie', cookieSchema);
-
-db.once('open', function() {
-  Cookie.remove({});
-
-  Cookie.find(function(err, cookies) {
-    if(!cookies.length) {
-      var quotes = require('./quotes');
-
-      for(var i = 0; i < quotes.length; i++) {
-        var quote = quotes[i];
-        var cookie = new Cookie({
-          text: quote
-        });
-        cookie.save(function(err, cookies) {
-          if(err) {
-            console.log('error, cookie "' + quote + '" not saved');
-          }
-        })
-      }
-
-      console.log('cookies inserted');
-    }
-
-
-    Cookie.count().exec(function(err, count) {
-      console.log(count + ' cookies');
-    });
-  });
-});
+//var mongoose = require('mongoose');
+//var mongoURI = 'mongodb://localhost:27017/aleastory';
+//var db = mongoose.connect(mongoURI).connection;
+//db.on('error', function(err) { console.log(err.message); });
+//
+//var cookieSchema = mongoose.Schema({
+//  text: String
+//});
+//var Cookie = mongoose.model('Cookie', cookieSchema);
+//
+//db.once('open', function() {
+//  Cookie.remove({});
+//
+//  Cookie.find(function(err, cookies) {
+//    if(!cookies.length) {
+//      var quotes = require('./quotes');
+//
+//      for(var i = 0; i < quotes.length; i++) {
+//        var quote = quotes[i];
+//        var cookie = new Cookie({
+//          text: quote
+//        });
+//        cookie.save(function(err, cookies) {
+//          if(err) {
+//            console.log('error, cookie "' + quote + '" not saved');
+//          }
+//        })
+//      }
+//
+//      console.log('cookies inserted');
+//    }
+//
+//
+//    Cookie.count().exec(function(err, count) {
+//      console.log(count + ' cookies');
+//    });
+//  });
+//});
 
 
 
@@ -148,30 +150,32 @@ serialPort.on('error', function() {
  */
 
 var triggerPrint = function() {
-  Cookie.find().exec(function(err, cookies) {
-    if(!cookies) {
-      console.log('no cookie found :(');
-      return;
-    }
+  //Cookie.find().exec(function(err, cookies) {
+  //  if(!cookies) {
+  //    console.log('no cookie found :(');
+  //    return;
+  //  }
+  //
+  //  var cookie = cookies[Math.floor(Math.random() * cookies.length)];
 
-    var cookie = cookies[Math.floor(Math.random() * cookies.length)];
+  var cookie = cookies[Math.floor(Math.random() * cookies.length)];
 
-    console.log('cookie is "' + cookie.text + '"');
+    console.log('cookie is "' + cookie + '"');
 
-    if(isPrinterReady) {
-      console.log('printing', cookie.text);
-      printer
-        .printLine(cookie.text)
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .print(function() {
-          console.log('done');
-        });
-    }
-  });
+  if(isPrinterReady) {
+    console.log('printing', cookie);
+    printer
+      .printLine(cookie)
+      .printLine('')
+      .printLine('')
+      .printLine('')
+      .printLine('')
+      .printLine('')
+      .printLine('')
+      .print(function() {
+        console.log('done');
+      });
+  }
+  //});
 };
 
