@@ -11,6 +11,7 @@ var serve = serveStatic('./');
 var Printer = require('thermalprinter');
 var printer;
 var isPrinterReady = false;
+var isButtonReady = true;
 
 var cookies = require('./quotes');
 var images = require('./images');
@@ -131,8 +132,9 @@ serialPort.on('open', function() {
 
     button.watch(function(err, value) {
       if(err) exit();
-      if(value) {
+      if(value && isButtonReady) {
         triggerPrint();
+        coolOff();
       }
     });
   });
@@ -142,6 +144,12 @@ serialPort.on('error', function() {
   console.log('Can\'t open serial port, no printing for you.');
 });
 
+var coolOff = function() {
+  isButtonReady = false;
+  setTimeout(function() {
+    isButtonReady = true;
+  }, 1000);
+};
 
 
 
