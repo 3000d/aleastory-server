@@ -165,7 +165,17 @@ var triggerPrint = function() {
   if(isPrinterReady) {
     console.log('printing', cookie);
     printer
+      .center().bold(true)
+      .printLine('YOUR FORTUNE COOKIE')
+      .bold(false)
+      .printLine('-------------------')
+      .printLine('')
+      .printLine('')
+      .left()
       .printLine(cookie)
+      .printLine('')
+      .printLine('')
+      .printLine('')ormaformat ddopd
       .printLine('')
       .printLine('')
       .printLine('')
