@@ -1,6 +1,6 @@
 module.exports = [
-  __dirname + '/uploads/costanza.jpg',
-  __dirname + '/uploads/kramer.jpg',
-  __dirname + '/uploads/memeface.jpg',
-  __dirname + '/uploads/strip.jpg'
+  __dirname + '/uploads/costanza.png',
+  __dirname + '/uploads/kramer.png',
+  __dirname + '/uploads/memeface.png',
+  __dirname + '/uploads/strip.png'
 ];

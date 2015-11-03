@@ -160,7 +160,7 @@ var triggerPrint = function() {
   //  var cookie = cookies[Math.floor(Math.random() * cookies.length)];
 
 
-  if(Math.random()<0.6) {
+  if(Math.random()<0) {
     printCookie();
   } else {
     printImage();
