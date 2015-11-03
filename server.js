@@ -13,6 +13,7 @@ var printer;
 var isPrinterReady = false;
 
 var cookies = require('./quotes');
+var images = require('./images');
 
 
 /**
@@ -158,12 +159,23 @@ var triggerPrint = function() {
   //
   //  var cookie = cookies[Math.floor(Math.random() * cookies.length)];
 
+
+  if(Math.random()<0.6) {
+    printCookie();
+  } else {
+    printImage();
+  }
+
+  //});
+};
+
+
+var printCookie = function() {
   var cookie = cookies[Math.floor(Math.random() * cookies.length)];
 
-    console.log('cookie is "' + cookie + '"');
+  console.log('printing', cookie);
 
   if(isPrinterReady) {
-    console.log('printing', cookie);
     printer
       .center().bold(true)
       .printLine('YOUR FORTUNE COOKIE')
@@ -186,6 +198,22 @@ var triggerPrint = function() {
         console.log('done');
       });
   }
-  //});
 };
 
+var printImage = function() {
+  var image = images[Math.floor(Math.random() * images.length)];
+  console.log('printing image ', image);
+  if(isPrinterReady) {
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+    printer.printImage(image);
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+    printer.printLine('');
+  }
+};
