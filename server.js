@@ -175,7 +175,7 @@ var triggerPrint = function() {
       .printLine(cookie)
       .printLine('')
       .printLine('')
-      .printLine('')ormaformat ddopd
+      .printLine('')
       .printLine('')
       .printLine('')
       .printLine('')
