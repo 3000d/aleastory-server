@@ -1,6 +1,6 @@
 # Aleastory Server
 
-Nodejs server.
+Node js server that runs on a Raspberry Pi and serves random stories when someone pushes a button.
 
 * Controls the thermal printer from Adafruit, LEDs and button.
 * Serves a random story (image or text) when button is pushed.
