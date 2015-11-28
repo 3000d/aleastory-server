@@ -1,0 +1,19 @@
+.led {
+    display: inline-block;
+    border-radius: 100px;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border: solid 2px;
+}
+.led.turned-off {
+    background-color: transparent !important;
+}
+#green-led {
+    border-color: green;
+    background-color: green;
+}
+#red-led {
+    border-color: red;
+    background-color: red;
+}

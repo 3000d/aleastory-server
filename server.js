@@ -8,7 +8,6 @@ var serveStatic = require('serve-static');
 var finalhandler = require('finalhandler');
 var serve = serveStatic('./');
 
-//var Printer = require('./printer/Printer');
 var Printer = require('thermalprinter');
 var printer;
 var printerOptions = {
@@ -144,33 +143,6 @@ var triggerPrint = function() {
 };
 
 var printText = function(data) {
-  if(isPrinterReady) {
-    if(data.text) {
-      if(data.title) {
-        printer
-          .center().bold(true)
-          .printLine(data.title)
-          .bold(false)
-          .printLine('-------------------');
-      }
-
-      printer
-        .left()
-        .printLine('')
-        .printLine('')
-        .small(true)
-        .printLine(data.text)
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .printLine('')
-        .print(function() {
-          console.log('done');
-        });
-    }
-  }
 };
 
 var printCookie = function() {
