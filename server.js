@@ -8,58 +8,20 @@ var serveStatic = require('serve-static');
 var finalhandler = require('finalhandler');
 var serve = serveStatic('./');
 
+//var Printer = require('./printer/Printer');
 var Printer = require('thermalprinter');
 var printer;
+var printerOptions = {
+  //maxPrintingDots: 15,
+  //heatingTime: 150,
+  //heatingInterval: 4,
+  //commandDelay: 5
+};
 var isPrinterReady = false;
 var isButtonReady = true;
 
 var cookies = require('./quotes');
 var images = require('./images');
-
-
-/**
- * DATABASE
- */
-
-//var mongoose = require('mongoose');
-//var mongoURI = 'mongodb://localhost:27017/aleastory';
-//var db = mongoose.connect(mongoURI).connection;
-//db.on('error', function(err) { console.log(err.message); });
-//
-//var cookieSchema = mongoose.Schema({
-//  text: String
-//});
-//var Cookie = mongoose.model('Cookie', cookieSchema);
-//
-//db.once('open', function() {
-//  Cookie.remove({});
-//
-//  Cookie.find(function(err, cookies) {
-//    if(!cookies.length) {
-//      var quotes = require('./quotes');
-//
-//      for(var i = 0; i < quotes.length; i++) {
-//        var quote = quotes[i];
-//        var cookie = new Cookie({
-//          text: quote
-//        });
-//        cookie.save(function(err, cookies) {
-//          if(err) {
-//            console.log('error, cookie "' + quote + '" not saved');
-//          }
-//        })
-//      }
-//
-//      console.log('cookies inserted');
-//    }
-//
-//
-//    Cookie.count().exec(function(err, count) {
-//      console.log(count + ' cookies');
-//    });
-//  });
-//});
-
 
 
 // get serial port, or default to /dev/ttyAMA0
@@ -95,12 +57,16 @@ var io = SocketIO.listen(server);
 
 io.sockets.on('connection', function(socket) {
   console.log('client connected');
-  socket.on('send-text', function(text) {
-
+  socket.on('send-text', function(data) {
+    printText(data);
   });
 
   socket.on('print', function() {
     triggerPrint();
+  });
+
+  socket.on('print-img', function() {
+    printImage();
   });
 });
 
@@ -116,7 +82,7 @@ var serialPort = new SerialPort(port, {
 
 serialPort.on('open', function() {
   console.log('serial port opened');
-  printer = new Printer(serialPort);
+  printer = new Printer(serialPort, printerOptions);
 
   printer.on('ready', function() {
     console.log('printer ready');
@@ -177,6 +143,35 @@ var triggerPrint = function() {
   //});
 };
 
+var printText = function(data) {
+  if(isPrinterReady) {
+    if(data.text) {
+      if(data.title) {
+        printer
+          .center().bold(true)
+          .printLine(data.title)
+          .bold(false)
+          .printLine('-------------------');
+      }
+
+      printer
+        .left()
+        .printLine('')
+        .printLine('')
+        .small(true)
+        .printLine(data.text)
+        .printLine('')
+        .printLine('')
+        .printLine('')
+        .printLine('')
+        .printLine('')
+        .printLine('')
+        .print(function() {
+          console.log('done');
+        });
+    }
+  }
+};
 
 var printCookie = function() {
   var cookie = cookies[Math.floor(Math.random() * cookies.length)];
@@ -209,19 +204,22 @@ var printCookie = function() {
 };
 
 var printImage = function() {
-  var image = images[Math.floor(Math.random() * images.length)];
+  //var image = images[Math.floor(Math.random() * images.length)];
+  var image = __dirname + '/uploads/kroll_renseignements_rotated.png';
   console.log('printing image ', image);
   if(isPrinterReady) {
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
-    printer.printImage(image);
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
-    printer.printLine('');
+    printer.printLine('')
+      .printLine('')
+      .printLine('')
+      .printImage(image)
+      .printLine('')
+      .printLine('')
+      .print(function() {
+        console.log('done');
+      });
   }
+};
+
+var formatTextForPrinter = function(text) {
+
 };
