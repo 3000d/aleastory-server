@@ -12,6 +12,11 @@ class Communication {
     io.sockets.on('connection', function(socket) {
       logger.info('A client is connected');
 
+      // proxy function for addEventListener and removeEventListener
+      // (bind creates a new function reference)
+      // http://stackoverflow.com/questions/11565471/removing-event-listener-which-was-added-with-bind
+      var handleStateChange = self.handleLedStateChange.bind(socket);
+
       socket.on('send-text', function(data) {
         devices.printer.printText(data);
       });
@@ -27,8 +32,8 @@ class Communication {
       socket.on('disconnect', function() {
         logger.info('client disconnected');
 
-        devices.greenLed.removeListener('stateChanged', self.handleLedStateChange.bind(socket));
-        devices.redLed.removeListener('stateChanged', self.handleLedStateChange.bind(socket));
+        devices.greenLed.removeListener('stateChanged', handleStateChange);
+        devices.redLed.removeListener('stateChanged', handleStateChange);
       }.bind(this));
 
 
@@ -42,13 +47,12 @@ class Communication {
         state: devices.redLed.state
       });
 
-      devices.greenLed.on('stateChanged', self.handleLedStateChange.bind(socket));
-      devices.redLed.on('stateChanged', self.handleLedStateChange.bind(socket));
+      devices.greenLed.on('stateChanged', handleStateChange);
+      devices.redLed.on('stateChanged', handleStateChange);
     });
   }
 
   handleLedStateChange(led) {
-    console.log('led state changed');
     this.emit('led-state-changed', {
       led: led.name,
       state: led.state
