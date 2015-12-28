@@ -49,7 +49,8 @@ class Printer extends EventEmitter {
       if(!config.DRY_RUN) {
         if(this.isReady) {
           this.emit('printStarted');
-          this.printer = this.parser.parse(data.text);
+          //this.printer = this.parser.parse(data.text);
+          this.printer.printLine(data.text);
 
           this.printer.print(function () {
             logger.info('Printing done.');
