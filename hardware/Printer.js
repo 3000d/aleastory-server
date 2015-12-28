@@ -55,7 +55,7 @@ class Printer extends EventEmitter {
           this.printer.print(function () {
             logger.info('Printing done.');
             this.emit('printDone');
-          });
+          }.bind(this));
         }
       } else {
         this.emit('printStarted');

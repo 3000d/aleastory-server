@@ -19,6 +19,8 @@ Node js server that runs on a Raspberry Pi and serves random stories when someon
 
 ## Run
 
+`ENVIRONMENT=production node app.js`
+
 `TODO`
 
 ## Install
@@ -29,6 +31,12 @@ or higher and git installed.
 1. Clone this repo : `git clone https://github.com/3000d/aleastory-server.git`
 1. Run `cd aleastory-server`
 1. Run `npm install`
+
+## Debug
+
+In debug environment, a Web Server is available for you to play with the printer.
+The default port is 8080, so you can access it with `http://localhost:8080`.
+Note that the `ENVIRONMENT` environment variable must be set to `development` (by default).
 
 ### Note on Raspbian Wheezy
 
