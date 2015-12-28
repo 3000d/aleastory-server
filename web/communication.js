@@ -34,6 +34,7 @@ class Communication {
 
         devices.greenLed.removeListener('stateChanged', handleStateChange);
         devices.redLed.removeListener('stateChanged', handleStateChange);
+        devices.printer.removeAllListeners();
       }.bind(this));
 
 
@@ -49,6 +50,7 @@ class Communication {
 
       devices.greenLed.on('stateChanged', handleStateChange);
       devices.redLed.on('stateChanged', handleStateChange);
+      devices.printer.on('printDone', self.handlePrintDone.bind(socket));
     });
   }
 
@@ -56,6 +58,12 @@ class Communication {
     this.emit('led-state-changed', {
       led: led.name,
       state: led.state
+    });
+  }
+
+  handlePrintDone(htmlText) {
+    this.emit('printing-done', {
+      htmlText
     });
   }
 }

@@ -1,6 +1,6 @@
 module.exports = {
   ENVIRONMENT: process.env.ENVIRONMENT || "development",
-  HTTP_PORT: process.env.HTTP_PORT || 8081,
+  HTTP_PORT: process.env.HTTP_PORT || 8080,
   DRY_RUN: process.env.DRY_RUN || false,
 
   PRINTER_SERIAL_PORT: process.env.PRINTER_SERIAL_PORT || '/dev/ttyAMA0',

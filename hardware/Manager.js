@@ -4,9 +4,9 @@ var EventEmitter = require('events').EventEmitter;
 var logger = require('winston');
 
 var config = require('config/config');
-var Button = require('printer/Button');
-var Led = require('printer/Led');
-var Printer = require('printer/Printer');
+var Button = require('hardware/Button');
+var Led = require('hardware/Led');
+var Printer = require('hardware/Printer');
 
 class Manager extends EventEmitter {
   constructor() {
@@ -19,12 +19,14 @@ class Manager extends EventEmitter {
     this.redLed = new Led(config.LED_RED_PIN, "red");
     this.printer = new Printer();
 
-    this.emit('started', {
+    var devices = {
       button: this.button,
       greenLed: this.greenLed,
       redLed: this.redLed,
       printer: this.printer
-    });
+    };
+
+    this.emit('started', devices);
 
     this.redLed.turnOn();
 
@@ -35,7 +37,7 @@ class Manager extends EventEmitter {
 
       this.button.start();
 
-      this.emit('ready');
+      this.emit('ready', devices);
     }.bind(this));
 
 
@@ -46,7 +48,7 @@ class Manager extends EventEmitter {
     if(Math.random() > 0.5) {
       this.printer.printText('hello world');
     } else {
-      this.printer.printImage(__base + 'data/images/costanza.png');
+      this.printer.printImage(`${__base}data/images/costanza.png`);
     }
   }
 

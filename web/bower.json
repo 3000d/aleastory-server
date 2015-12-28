@@ -1,0 +1,23 @@
+{
+  "name": "Aleastory Server Debug Web Interface",
+  "homepage": "https://github.com/3000d/aleastory-server",
+  "authors": [
+    "Jonathan Berger <john@3kd.be>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "simplemde": "~1.9.0"
+  }
+}

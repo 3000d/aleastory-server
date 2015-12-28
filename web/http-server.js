@@ -23,7 +23,7 @@ class HttpServer extends EventEmitter {
     });
     this.server.listen(this.port);
 
-    logger.info('HTTP Server is running');
+    logger.info(`HTTP Server is running on localhost:${this.port}`);
     this.emit('ready', this.server);
   }
 

@@ -4,8 +4,10 @@ var EventEmitter = require('events').EventEmitter;
 var SerialPort = require('serialport').SerialPort;
 var ThermalPrinter = require('thermalprinter');
 var logger = require('winston');
+var markdown = require('markdown').markdown;
 
 var config = require('config/config');
+var Parser = require('text/Parser');
 
 class Printer extends EventEmitter {
   constructor() {
@@ -23,6 +25,7 @@ class Printer extends EventEmitter {
       this.serialPort.on('open', function() {
         console.log('Serial port opened');
         this.printer = new ThermalPrinter(this.serialPort);
+        this.parser = new Parser(this.printer);
 
         this.printer.on('ready', function() {
           console.log('Printer is ready.');
@@ -40,29 +43,25 @@ class Printer extends EventEmitter {
   }
 
   printText(data) {
-    logger.info('printing text : ', data);
-    if(this.isReady) {
-      this.emit('printStarted');
+    if(data.text) {
+      logger.info(`printing text : \n\n${data.text}\n\n`);
 
-      if(data.text) {
-        if(data.title) {
-          this.printer
-            .center().bold(true)
-            .printLine(data.title)
-            .bold(false)
-            .printLine('-------------------');
-        }
+      if(!config.DRY_RUN) {
+        if(this.isReady) {
+          this.emit('printStarted');
+          this.printer = this.parser.parse(data.text);
 
-        this.printer
-          .left()
-          .addBlankLines(2)
-          .small(true)
-          .printLine(data.text)
-          .addBlankLines(6)
-          .print(function() {
+          this.printer.print(function () {
             logger.info('Printing done.');
             this.emit('printDone');
           });
+        }
+      } else {
+        this.emit('printStarted');
+        var htmlText = markdown.toHTML(data.text, {
+          renderer: 'html'
+        });
+        this.emit('printDone', htmlText);
       }
     }
   }
@@ -86,6 +85,7 @@ class Printer extends EventEmitter {
   addBlankLines(lineCount) {
     for(let i = 0; i < lineCount; i++) {
       this.printer.printLine('');
+      this.printer.writeCommand();
     }
     return this.printer;
   }

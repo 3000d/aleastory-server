@@ -7,7 +7,7 @@ var logger = require('winston');
 var config = require('config/config');
 var HttpServer = require('web/http-server');
 var Communication = require('web/communication');
-var Manager = require('printer/Manager');
+var Manager = require('hardware/Manager');
 
 class App {
   static run() {
