@@ -32,7 +32,7 @@ class Printer extends EventEmitter {
           this.emit('ready');
           this.isReady = true;
         }.bind(this));
-      });
+      }.bind(this));
 
       this.serialPort.on('error', function() {
         console.log('Can\'t open serial port, no printing for you.');
