@@ -1,5 +1,8 @@
 'use strict';
 
+require ('app-module-path').addPath(__dirname);
+global.__base = __dirname + '/';
+
 var logger = require('winston');
 
 var config = require('config/config');

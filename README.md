@@ -23,11 +23,24 @@ Node js server that runs on a Raspberry Pi and serves random stories when someon
 
 ## Install
 
-You should have a working Raspberry Pi environment with nodejs and git installed.
+You should have a working Raspberry Pi environment with Node.js v5
+or higher and git installed.
 
 1. Clone this repo : `git clone https://github.com/3000d/aleastory-server.git`
 1. Run `cd aleastory-server`
 1. Run `npm install`
+
+### Note on Raspbian Wheezy
+
+On ARM architecture, addons are compiled on install.
+To compile addons for Node.js v4 or higher on Raspbian Wheezy,
+gcc/g++ 4.8 or higher are required. Raspbian Wheezy ships with
+gcc/g++ 4.6. On a Raspberry Pi, one easy way to get gcc/g++ 4.9 is to use Raspbian Jessie
+rather that Raspbian Wheezy. Raspbian Jessie is available for download at
+raspberrypi.org. Alternatively, optional gcc/g++ compilers are available for
+Raspbian Wheezy and can be installed as described in [this link](https://github.com/fivdi/onoff/wiki/Node.js-v4-and-native-addons)
+
+
 
 ## GPIO
 
