@@ -59,9 +59,7 @@ class Printer extends EventEmitter {
         }
       } else {
         this.emit('printStarted');
-        var htmlText = markdown.toHTML(data.text, {
-          renderer: 'html'
-        });
+        var htmlText = markdown.toHTML(data.text);
         this.emit('printDone', htmlText);
       }
     }
