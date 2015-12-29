@@ -21,6 +21,13 @@ class Parser {
         this._parseBlock(tree[i]);
       }
     }
+
+
+    // add some space to be able to tear the paper cleanly
+    this.printer
+      .printLine().printLine().printLine()
+      .printLine().printLine().printLine()
+      .printLine().printLine().printLine();
   }
 
   _parseBlock(block) {
@@ -28,20 +35,21 @@ class Parser {
     var string = '';
 
     if(blockType == 'header') {
-      this.printer
-        .center().bold(true);
+      this.printer.center().bold(true);
 
       this._formatInlineText(block);
 
       this.printer
+        .printLine()
         .bold(false)
         .printLine('----------------')
         .left()
-        .printLine()
-        .printLine()
         .printLine();
     } else if(blockType == 'para') {
       this._formatInlineText(block);
+      this.printer
+        .printLine()
+        .printLine();
     } else if(blockType == 'blockquote') {
       this.printer.indent(10);
       this._parseBlock(block[0]);
@@ -66,33 +74,25 @@ class Parser {
   }
 
   _formatInlineText(block) {
-    if(block.length > 1) {
-      for(let i = 0; i < block.length; i++) {
-        let chunk = block[i];
+    for(let i = 0; i < block.length; i++) {
+      let chunk = block[i];
 
-        if(typeof chunk === 'string') {
-          this.printer.printText(chunk);
-        } else {
-          if(chunk[0] == 'strong') {
-            this.printer
-              .bold(true)
-              .printText(chunk)
-              .bold(false);
-          } else if(chunk[0] == 'em') {
-            this.printer
-              .inverse(true)
-              .printText(chunk)
-              .inverse(false);
-          }
+      if(typeof chunk === 'string') {
+        this.printer.printText(chunk);
+      } else if(chunk.constructor === Array) {
+        if(chunk[0] == 'strong') {
+          this.printer
+            .bold(true)
+            .printText(chunk[1])
+            .bold(false);
+        } else if(chunk[0] == 'em') {
+          this.printer
+            .inverse(true)
+            .printText(chunk[1])
+            .inverse(false);
         }
       }
-    } else {
-      this.printer.printText(block[0]);
     }
-    this.printer
-      .printLine()
-      .printLine()
-      .printLine();
   }
 }
 

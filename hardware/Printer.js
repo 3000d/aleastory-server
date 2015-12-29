@@ -49,8 +49,8 @@ class Printer extends EventEmitter {
       if(!config.DRY_RUN) {
         if(this.isReady) {
           this.emit('printStarted');
-          //this.printer = this.parser.parse(data.text);
-          this.printer.printLine(data.text);
+          this.parser.parse(data.text);
+          //this.printer.printLine(data.text);
 
           this.printer.print(function () {
             logger.info('Printing done.');
@@ -70,23 +70,17 @@ class Printer extends EventEmitter {
     if(this.isReady) {
       this.emit('printStarted');
 
-      this.printer.printLine('')
-        .addBlankLines(2)
+      this.printer.printLine()
+        .printLine()
+        .printLine()
         .printImage(imagePath)
-        .addBlankLines(2)
+        .printLine()
+        .printLine()
         .print(function() {
           logger.info('Printing done.');
           this.emit('printDone');
-        });
+        }.bind(this));
     }
-  }
-
-  addBlankLines(lineCount) {
-    for(let i = 0; i < lineCount; i++) {
-      this.printer.printLine('');
-      this.printer.writeCommand();
-    }
-    return this.printer;
   }
 }
 

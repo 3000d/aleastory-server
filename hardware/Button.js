@@ -26,7 +26,7 @@ class Button extends EventEmitter {
           logger.info('Button pushed');
           this.push();
         }
-      });
+      }.bind(this));
     } else {
       this.emit('enabled');
     }
