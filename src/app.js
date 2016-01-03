@@ -7,7 +7,7 @@ var logger = require('winston');
 
 var config = require('config/config');
 var HttpServer = require('web/http-server');
-var Communication = require('web/communication');
+var Communication = require('communication/Communication');
 var Manager = require('hardware/Manager');
 
 class App {
@@ -18,26 +18,14 @@ class App {
       logger.warn('RUNNING IN DRY RUN : SERIAL AND GPIO NOT USED');
     }
 
-    if(config.isDebug()) {
-      App.initWebInterface(printerManager);
-    }
-
-    printerManager.start();
-  }
-
-  static initWebInterface(printerManager) {
-    logger.warn('RUNNING IN DEBUG MODE');
-
-    let httpServer = new HttpServer(config.HTTP_PORT);
+    // socket communication (used for debug)
     let communication = new Communication();
 
-    httpServer.on('ready', function(server) {
-      printerManager.on('started', function(devices) {
-        communication.run(server, devices);
-      });
+    printerManager.on('started', function(devices) {
+      communication.run(devices);
     });
 
-    httpServer.run();
+    printerManager.start();
   }
 }
 
