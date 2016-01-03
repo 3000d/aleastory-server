@@ -13,6 +13,6 @@ module.exports = {
   LED_RED_PIN: process.env.LED_RED_PIN || 15,
 
   isDebug: function() {
-    return this.ENVIRONMENT == "development";
+    return this.NODE_ENV == "development";
   }
 };

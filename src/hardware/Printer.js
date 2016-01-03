@@ -10,33 +10,23 @@ var config = require('config/config');
 var Parser = require('text/Parser');
 
 class Printer extends EventEmitter {
-  constructor() {
+  constructor(serialPort) {
     super();
 
     this.isReady = false;
+    this.serialPort = serialPort;
   }
 
   start() {
     if(!config.DRY_RUN) {
-      this.serialPort = new SerialPort(config.PRINTER_SERIAL_PORT, {
-        baudrate: config.PRINTER_SERIAL_BAUDRATE
-      });
+      this.printer = new ThermalPrinter(this.serialPort);
+      this.parser = new Parser(this.printer);
 
-      this.serialPort.on('open', function() {
-        console.log('Serial port opened');
-        this.printer = new ThermalPrinter(this.serialPort);
-        this.parser = new Parser(this.printer);
-
-        this.printer.on('ready', function() {
-          console.log('Printer is ready.');
-          this.emit('ready');
-          this.isReady = true;
-        }.bind(this));
+      this.printer.on('ready', function() {
+        console.log('Printer is ready.');
+        this.emit('ready');
+        this.isReady = true;
       }.bind(this));
-
-      this.serialPort.on('error', function() {
-        console.log('Can\'t open serial port, no printing for you.');
-      });
     } else {
       this.emit('ready');
     }

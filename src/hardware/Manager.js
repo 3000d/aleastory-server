@@ -9,15 +9,17 @@ var Led = require('hardware/Led');
 var Printer = require('hardware/Printer');
 
 class Manager extends EventEmitter {
-  constructor() {
+  constructor(serialPort) {
     super();
+
+    this.serialPort = serialPort;
   }
 
   start() {
     this.button = new Button();
     this.greenLed = new Led(config.LED_GREEN_PIN, "green");
     this.redLed = new Led(config.LED_RED_PIN, "red");
-    this.printer = new Printer();
+    this.printer = new Printer(this.serialPort);
 
     var devices = {
       button: this.button,
