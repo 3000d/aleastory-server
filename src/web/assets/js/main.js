@@ -49,10 +49,6 @@
     return false;
   });
 
-  uploader.addEventListener('start', function(event) {
-    console.log('hello ?');
-  });
-
   uploader.addEventListener("progress", function(event){
     var percent = event.bytesLoaded / event.file.size * 100;
     $successMessage.hide();
