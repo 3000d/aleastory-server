@@ -12,6 +12,8 @@ module.exports = {
   LED_GREEN_PIN: process.env.LED_GREEN_PIN || 14,
   LED_RED_PIN: process.env.LED_RED_PIN || 15,
 
+  IMG_ACCEPTED_EXTENSIONS: ['png', 'jpg', 'jpeg'],
+
   isDebug: function() {
     return this.NODE_ENV == "development";
   }

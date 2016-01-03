@@ -7,12 +7,14 @@ var config = require('config/config');
 var Button = require('hardware/Button');
 var Led = require('hardware/Led');
 var Printer = require('hardware/Printer');
+var ImageFetcher = require('image/ImageFetcher');
 
 class Manager extends EventEmitter {
   constructor(serialPort) {
     super();
 
     this.serialPort = serialPort;
+    this.imageFetcher = new ImageFetcher(`${__base}../data/images`);
   }
 
   start() {
@@ -47,10 +49,11 @@ class Manager extends EventEmitter {
   }
 
   handleButtonPush() {
-    if(Math.random() > 0.5) {
+    if(Math.random() > 1) {
       this.printer.printText('hello world');
     } else {
-      this.printer.printImage(`${__base}../data/images/costanza.png`);
+      console.log(this.imageFetcher.getRandomImage());
+      //this.printer.printImage(`${__base}../data/images/costanza.png`);
     }
   }
 
