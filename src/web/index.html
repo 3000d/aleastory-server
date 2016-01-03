@@ -6,32 +6,86 @@
 
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/vendor/simplemde/dist/simplemde.min.css">
+    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Thermal printer</h1>
+    <header>
+        <h1>Thermal printer</h1>
+    </header>
 
-    <form action="#" id="send-text__form">
-        <p>
-            <label for="send-title__input">Title :</label>
-            <input type="text" name="send-title__input" id="send-title__input" />
-        </p>
-        <p>
-            <label for="send-text__input">Text to print :</label>
-            <textarea name="send-text__input" id="send-text__input" cols="30" rows="10"></textarea>
-        </p>
-        <button>OK</button>
-    </form>
+    <main class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#simulation" data-toggle="tab">
+                    Simulation
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#text" data-toggle="tab">
+                    Print text
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#image" data-toggle="tab">
+                    Print image
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#image-upload" data-toggle="tab">
+                    Upload image
+                </a>
+            </li>
+        </ul>
 
-    <hr>
-    <button id="send-print-img-cmd">PRINT IMAGE OF GEORGES</button>
-    <hr>
-    <button id="send-button-push">PUSH</button>
-    <span id="green-led" class="led turned-off"></span>
-    <span id="red-led" class="led turned-off"></span>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="simulation">
+                <button id="send-button-push" class="btn btn-primary">PUSH</button>
+                <span id="green-led" class="led turned-off"></span>
+                <span id="red-led" class="led turned-off"></span>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="text">
+                <form action="#" id="send-text__form">
+                    <div class="form-group">
+                        <label for="send-title__input">Title :</label>
+                        <input type="text" name="send-title__input" id="send-title__input" class="form-control" />
+                    </div>
+                    <p>
+                        <label for="send-text__input">Text to print :</label>
+                        <textarea name="send-text__input" id="send-text__input" cols="30" rows="10"></textarea>
+                    </p>
+                    <button class="btn btn-primary btn-lg">Print text</button>
+                </form>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="image">
+                <button id="send-print-img-cmd">PRINT IMAGE OF GEORGES</button>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="image-upload">
+                <div id="image-upload-btn" class="btn btn-primary btn-file">
+                    Choose an image and upload
+                    <input id="image-upload-input" type="file" accept=".jpg,.png">
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0;">
+                    </div>
+                </div>
+                <div class="success-message alert alert-success">
+                    Image upload complete
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
 
     <script type="text/javascript" src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/vendor/simplemde/dist/simplemde.min.js"></script>
     <script type="text/javascript" src="http://localhost:8081/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/siofu/client.js"></script>
     <script type="text/javascript" src="assets/js/communication.js"></script>
     <script type="text/javascript" src="assets/js/main.js"></script>
 </body>

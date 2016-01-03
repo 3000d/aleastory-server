@@ -1,5 +1,6 @@
 'use strict';
 var SocketIO = require('socket.io');
+var SocketIOFileUpload = require('socketio-file-upload');
 var logger = require('winston');
 
 class Communication {
@@ -51,6 +52,22 @@ class Communication {
       devices.greenLed.on('stateChanged', handleStateChange);
       devices.redLed.on('stateChanged', handleStateChange);
       devices.printer.on('printDone', self.handlePrintDone.bind(socket));
+
+
+      // Image uploader
+      var uploader = new SocketIOFileUpload();
+      uploader.dir = `${__base}../data/images`;
+      uploader.listen(socket);
+
+      // Do something when a file is saved:
+      uploader.on("saved", function(event){
+        logger.info('file saved :', event.file.name);
+      });
+
+      // Error handler:
+      uploader.on("error", function(event){
+        logger.error("Error from uploader", event);
+      });
     });
   }
 

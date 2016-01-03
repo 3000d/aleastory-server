@@ -1,3 +1,22 @@
+body > header {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 100px;
+}
+
+.nav-tabs {
+    margin-bottom: 30px !important;
+}
+
+#simulation {
+    text-align: center;
+    margin-top: 100px;
+}
+
+
 .led {
     display: inline-block;
     border-radius: 100px;
@@ -16,4 +35,40 @@
 #red-led {
     border-color: red;
     background-color: red;
+}
+
+
+#image-upload-btn {
+    margin-bottom: 20px;
+}
+
+
+/** File input button **/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+
+/** progress bars **/
+.progress .progress-bar {
+    transition: none;
+    -webkit-transition: none;
+    -o-transition: none;
 }

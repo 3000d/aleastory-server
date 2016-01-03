@@ -12,6 +12,7 @@
     "serialport": "^2.0.2",
     "serve-static": "^1.10.0",
     "socket.io": "^1.3.7",
+    "socketio-file-upload": "^0.4.4",
     "thermalprinter": "https://github.com/3000d/thermalPrinter/tarball/c101fa8ceac4cdba2731c556e7252049288f0ce9",
     "winston": "^2.1.1"
   },
@@ -33,7 +34,6 @@
     "dev:web-debug": {
       "command": "./web-debug.sh"
     },
-
     "prod": {
       "command": "node src/app.js",
       "env": {
