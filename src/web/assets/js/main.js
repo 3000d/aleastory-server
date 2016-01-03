@@ -10,7 +10,8 @@
     }
   });
 
-  var socket = io('http://localhost:8081');
+  var socket = io('http://' + window.location.hostname + ':8081');
+
 
   $('body').communication({
     socket: socket,
