@@ -50,7 +50,7 @@ class Manager extends EventEmitter {
     if(Math.random() > 0.5) {
       this.printer.printText('hello world');
     } else {
-      this.printer.printImage(`${__base}data/images/costanza.png`);
+      this.printer.printImage(`${__base}../data/images/costanza.png`);
     }
   }
 
