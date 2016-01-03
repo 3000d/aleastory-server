@@ -49,11 +49,11 @@ class Manager extends EventEmitter {
   }
 
   handleButtonPush() {
-    if(Math.random() > 1) {
+    if(Math.random() > 0.5) {
       this.printer.printText('hello world');
     } else {
-      console.log(this.imageFetcher.getRandomImage());
-      //this.printer.printImage(`${__base}../data/images/costanza.png`);
+      var image = this.imageFetcher.getRandomImage();
+      this.printer.printImage(`${__base}../data/images/${image}`);
     }
   }
 
