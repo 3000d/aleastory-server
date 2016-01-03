@@ -1,5 +1,5 @@
 module.exports = {
-  ENVIRONMENT: process.env.ENVIRONMENT || "development",
+  NODE_ENV: process.env.ENVIRONMENT || "development",
   HTTP_PORT: process.env.HTTP_PORT || 8080,
   DRY_RUN: process.env.DRY_RUN || false,
 
@@ -13,6 +13,6 @@ module.exports = {
   LED_RED_PIN: process.env.LED_RED_PIN || 15,
 
   isDebug: function() {
-    return this.ENVIRONMENT == "development";
+    return this.NODE_ENV == "development";
   }
 };

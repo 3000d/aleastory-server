@@ -17,10 +17,6 @@ Node js server that runs on a Raspberry Pi and serves random stories when someon
 * Green LED
 * Red LED
 
-## Run
-
-`ENVIRONMENT=production node app.js`
-
 `TODO`
 
 ## Install
@@ -32,11 +28,18 @@ or higher and git installed.
 1. Run `cd aleastory-server`
 1. Run `npm install`
 
-## Debug
+## Run
 
-In debug environment, a Web Server is available for you to play with the printer.
+- In dev env : `npm run dev`
+- In prod env : `npm run prod`
+
+You can run `npm run dry` if no hardware is plugged in.
+
+## HTTP Server for debug
+
+A HTTP Server is available for you to play with the printer. run `cd src/web && node run.js`.
 The default port is 8080, so you can access it with `http://localhost:8080`.
-Note that the `ENVIRONMENT` environment variable must be set to `development` (by default).
+You can change it in `src/config/config.js`.
 
 ### Note on Raspbian Wheezy
 

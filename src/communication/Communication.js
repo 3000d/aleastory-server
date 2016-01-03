@@ -3,8 +3,8 @@ var SocketIO = require('socket.io');
 var logger = require('winston');
 
 class Communication {
-  run(httpServer, devices) {
-    var io = SocketIO.listen(httpServer);
+  run(devices) {
+    var io = SocketIO.listen(8081);
     logger.info('socket.io is running');
 
     var self = this;
