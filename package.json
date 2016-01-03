@@ -30,13 +30,6 @@
         "NODE_ENV": "development"
       }
     },
-    "dev:dry": {
-      "command": "node src/app.js",
-      "env": {
-        "DRY_RUN": true,
-        "NODE_ENV": "development"
-      }
-    },
     "dev:web-debug": {
       "command": "./web-debug.sh"
     },

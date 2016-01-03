@@ -33,8 +33,6 @@ or higher and git installed.
 - In dev env : `npm run dev`
 - In prod env : `npm run prod`
 
-You can run `npm run dry` if no hardware is plugged in.
-
 ## HTTP Server for debug
 
 A HTTP Server is available for you to play with the printer. run `cd src/web && node run.js`.

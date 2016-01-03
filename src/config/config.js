@@ -1,5 +1,5 @@
 module.exports = {
-  NODE_ENV: process.env.ENVIRONMENT || "development",
+  NODE_ENV: process.env.NODE_ENV || "development",
   HTTP_PORT: process.env.HTTP_PORT || 8080,
   DRY_RUN: process.env.DRY_RUN || false,
 
