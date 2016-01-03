@@ -15,9 +15,38 @@
     "thermalprinter": "https://github.com/3000d/thermalPrinter/tarball/c101fa8ceac4cdba2731c556e7252049288f0ce9",
     "winston": "^2.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "better-npm-run": "0.0.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "better-npm-run dev:server & better-npm-run dev:web-debug",
+    "dry": "better-npm-run dev:dry & better-npm-run dev:web-debug",
+    "prod": "better-npm-run prod"
+  },
+  "betterScripts": {
+    "dev:server": {
+      "command": "node src/app.js",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "dev:dry": {
+      "command": "node src/app.js",
+      "env": {
+        "DRY_RUN": true,
+        "NODE_ENV": "development"
+      }
+    },
+    "dev:web-debug": {
+      "command": "./web-debug.sh"
+    },
+
+    "prod": {
+      "command": "node src/app.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
   },
   "author": "",
   "license": "ISC"
