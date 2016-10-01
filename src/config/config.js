@@ -14,6 +14,8 @@ module.exports = {
 
   IMG_ACCEPTED_EXTENSIONS: ['png', 'jpg', 'jpeg'],
 
+  DB_NAME: "aleastory.db",
+
   isDebug: function() {
     return this.NODE_ENV == "development";
   }

@@ -20,6 +20,7 @@
   });
 
 
+
   // Image upload
   var $imageUpload = $('#image-upload');
   var $imageUploadInput = $('#image-upload-input');

@@ -2,9 +2,13 @@
 var SocketIO = require('socket.io');
 var SocketIOFileUpload = require('socketio-file-upload');
 var logger = require('winston');
+var sqlite3 = require('sqlite3').verbose();
+var fs = require('fs');
+
+var config = require('config/config');
 
 class Communication {
-  run(devices) {
+  run(devices, db) {
     var io = SocketIO.listen(8081);
     logger.info('socket.io is running');
 
@@ -26,6 +30,26 @@ class Communication {
         devices.printer.printImage(__base + 'data/images/costanza.png');
       });
 
+      socket.on('print-file', function(filename) {
+        db.getLocation(function(location) {
+          let ext = filename.split('.').pop();
+          let fileLocation = location + '/' + filename;
+
+          if(ext == 'md') {
+            try {
+              let content = fs.readFileSync(fileLocation, 'utf8');
+              console.log(content);
+              devices.printer.printText({text: content});
+            } catch(e) {
+              console.error('Could not print text from location ', fileLocation);
+            }
+          } else if(['jpg', 'jpeg', 'JPG'].indexOf(ext) > -1) {
+            devices.printer.printImage(fileLocation);
+          }
+        });
+
+      });
+
       socket.on('button-push', function() {
         devices.button.push();
       });
@@ -37,6 +61,28 @@ class Communication {
         devices.redLed.removeListener('stateChanged', handleStateChange);
         devices.printer.removeAllListeners();
       }.bind(this));
+
+      socket.on('get-data-location', function () {
+        db.getLocation((location) => {
+          socket.emit('data-location', location);
+        });
+      });
+
+      socket.on('get-file-list', function() {
+        self.emitFileList(socket, db);
+      });
+
+      socket.on('set-data-location', function (location) {
+        if(!location) {
+          return;
+        }
+
+        console.log('changing data location to', location);
+        db.setLocation(location, function() {
+          // refresh file list
+          self.emitFileList(socket, db);
+        });
+      });
 
 
       // LEDs
@@ -68,6 +114,8 @@ class Communication {
       uploader.on("error", function(event){
         logger.error("Error from uploader", event);
       });
+
+
     });
   }
 
@@ -81,6 +129,23 @@ class Communication {
   handlePrintDone(htmlText) {
     this.emit('printing-done', {
       htmlText
+    });
+  }
+
+  emitFileList(socket, db) {
+    db.getLocation((location) => {
+      try {
+        let extensions = ['jpg', 'jpeg', 'png', 'gif', 'JPG', 'md'];
+        let fileList = fs.readdirSync(location).filter((filename) => {
+          let ext = filename.split('.').pop();
+          if(extensions.indexOf(ext) > -1) {
+            return filename;
+          }
+        });
+        socket.emit('file-list', fileList);
+      } catch(e) {
+        console.error('could not read folder at location', location, e);
+      }
     });
   }
 }

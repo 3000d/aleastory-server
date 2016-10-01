@@ -4,3 +4,4 @@ npm-debug.log
 data/*
 !data/.gitkeep
 !data/images/costanza.png
+*.db

@@ -1,6 +1,7 @@
 (function($) {
   $.fn.communication = function(params) {
     var socket = params.socket;
+    let $fileList = $('#file-list');
 
     $('#send-text__form').on('submit', function(e) {
       e.preventDefault();
@@ -18,6 +19,10 @@
     /*
      EMIT
      */
+
+    // on load
+    socket.emit('get-data-location');
+    socket.emit('get-file-list');
 
     $('#send-print-cmd').on('click', function(e) {
       e.preventDefault();
@@ -39,6 +44,23 @@
       console.log('sending button push');
       socket.emit('button-push');
     });
+
+    $fileList.on('click', 'a[data-action="print"]', function(e) {
+      e.preventDefault();
+
+      var filename = $(this).parent().find('.filename').html();
+      console.log('sending print file command for', filename);
+      socket.emit('print-file', filename);
+    });
+
+    // Data location
+    $('#list__location__form').on('submit', function(e) {
+      e.preventDefault();
+
+      console.log('sending change data location');
+      socket.emit('set-data-location', $(this).find('#location-input').val());
+    });
+
 
 
     /*
@@ -64,6 +86,30 @@
 
     socket.on('printing-done', function(data) {
       console.log(data.htmlText);
+    });
+
+
+    socket.on('data-location', function(data) {
+      $('#location-input').val(data);
+    });
+
+    socket.on('file-list', function(data) {
+      if(!data.length) {
+        $fileList.html("No image or md file found. Extensions accepted: 'jpg', 'jpeg', 'png', 'gif', 'JPG', 'md'");
+        return;
+      }
+
+      var items = '';
+      for(var i = 0; i < data.length; i++) {
+        items += '<li class="list-group-item">' +
+          '<span class="filename">' + data[i] + '</span>' +
+          '<a href="#" data-action="print" class="print badge bg-primary">' +
+          '<i class="fa fa-print"></i>' +
+          '</a>' +
+          '</li>';
+      }
+
+      $fileList.html(items);
     });
   }
 

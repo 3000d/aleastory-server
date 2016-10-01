@@ -5,11 +5,13 @@ global.__base = __dirname + '/';
 
 var logger = require('winston');
 var SerialPort = require('serialport').SerialPort;
+var sqlite3 = require('sqlite3').verbose();
 
 var config = require('config/config');
 var HttpServer = require('web/http-server');
 var Communication = require('communication/Communication');
 var Manager = require('hardware/Manager');
+const Database = require('model/Database');
 
 class App {
   static start() {
@@ -34,19 +36,36 @@ class App {
 
       App._initPrinterManager();
     });
+
   }
 
   static _initPrinterManager() {
     var printerManager = new Manager(this.serialPort);
 
+
     // socket communication (used for debug)
     let communication = new Communication();
 
     printerManager.on('started', function(devices) {
-      communication.run(devices);
+      let sqliteDb = App._initDatabase();
+      let db = new Database(sqliteDb);
+
+      communication.run(devices, db);
     });
 
     printerManager.start();
+  }
+
+  static _initDatabase() {
+    let db = new sqlite3.Database('aleastory.db');
+
+    db.serialize(function() {
+      db.run("CREATE TABLE if not exists data (location TEXT)");
+    });
+
+    //db.close();
+
+    return db;
   }
 }
 

@@ -21,6 +21,11 @@
                 </a>
             </li>
             <li role="presentation">
+                <a href="#list" data-toggle="tab">
+                    List
+                </a>
+            </li>
+            <li role="presentation">
                 <a href="#text" data-toggle="tab">
                     Print text
                 </a>
@@ -42,6 +47,19 @@
                 <button id="send-button-push" class="btn btn-primary">PUSH</button>
                 <span id="green-led" class="led turned-off"></span>
                 <span id="red-led" class="led turned-off"></span>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="list">
+                <form action="#" id="list__location__form">
+                    <div class="form-group">
+                        <label for="location-input">Data location</label>
+                        <input type="text" name="location-input" id="location-input" class="form-control" />
+                    </div>
+                    <button class="btn btn-primary">Change location</button>
+                </form>
+                <hr>
+                <ul id="file-list" class="list-group">
+                </ul>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="text">
