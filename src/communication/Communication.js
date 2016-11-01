@@ -84,6 +84,12 @@ class Communication {
         });
       });
 
+      socket.on('send-google-poetry', function(query) {
+        console.log('Sending Google Poetry with query', query);
+
+        devices.printer.printGooglePoetry(query);
+      });
+
 
       // LEDs
       socket.emit('led-state-changed', {

@@ -28,6 +28,11 @@ or higher and git installed.
 1. Run `cd aleastory-server`
 1. Run `npm install`
 
+### Mount a USB drive
+To add or remove texts and images you might want to use a USB drive.
+
+Use this tutorial to auto mount a USB drive : http://www.techjawab.com/2013/06/how-to-setup-mount-auto-mount-usb-hard.html
+
 ## Run
 
 - In dev env : `npm run dev`

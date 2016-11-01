@@ -61,6 +61,17 @@
       socket.emit('set-data-location', $(this).find('#location-input').val());
     });
 
+    $('#google-poetry__form').on('submit', function(e) {
+      e.preventDefault();
+
+      var googlePoetryQuery = $(this).find('#google-poetry-input').val();
+
+      if(googlePoetryQuery.length) {
+        console.log('sending google poetry');
+        socket.emit('send-google-poetry', googlePoetryQuery);
+      }
+    });
+
 
 
     /*

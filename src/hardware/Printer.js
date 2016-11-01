@@ -6,8 +6,10 @@ var ThermalPrinter = require('thermalprinter');
 var logger = require('winston');
 var markdown = require('markdown').markdown;
 
+var getRandom = require('util/Util').getRandom;
 var config = require('config/config');
 var Parser = require('text/Parser');
+var GooglePoetry = require('text/GooglePoetry');
 
 class Printer extends EventEmitter {
   constructor(serialPort) {
@@ -71,6 +73,42 @@ class Printer extends EventEmitter {
           this.emit('printDone');
         }.bind(this));
     }
+  }
+
+  printGooglePoetry(query) {
+    new GooglePoetry(query, (results) => {
+      logger.info('printing Google Poetry ', query);
+      results = getRandom(results, 4);
+
+      if(this.isReady) {
+        this.emit('printStarted');
+
+        // Title
+        this.printer.center().bold(true);
+        this.printText(query);
+        this.printer
+          .printLine()
+          .bold(false)
+          .printLine('----------------')
+          .left()
+          .printLine();
+
+        // Results
+        for(var i = 0; i < results.length; i++) {
+          this.printer.printText(results[i]);
+        }
+
+        this.printer
+          .printLine().printLine().printLine()
+          .printLine().printLine().printLine()
+          .printLine().printLine().printLine();
+
+        this.printer.print(function() {
+          logger.info('Printing done.');
+          this.emit('printDone');
+        }.bind(this));
+      }
+    });
   }
 }
 

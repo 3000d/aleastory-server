@@ -1,6 +1,5 @@
 'use strict';
 var path = require('path');
-console.log(path.join(__dirname + '/..'));
 require ('app-module-path').addPath(path.join(__dirname + '/..'));
 
 var SerialPort = require('serialport').SerialPort;

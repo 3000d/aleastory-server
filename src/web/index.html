@@ -40,6 +40,11 @@
                     Upload image
                 </a>
             </li>
+            <li role="presentation">
+                <a href="#google-poetry" data-toggle="tab">
+                    Google Poetry
+                </a>
+            </li>
         </ul>
 
         <div class="tab-content">
@@ -92,6 +97,16 @@
                 <div class="success-message alert alert-success">
                     Image upload complete
                 </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="google-poetry">
+                <form id="google-poetry__form" action="#">
+                    <p>
+                        <label for="google-poetry-input">Query:</label>
+                        <input id="google-poetry-input" class="form-control" type="text">
+                    </p>
+                    <button type="submit" class="btn btn-primary">GO!</button>
+                </form>
             </div>
         </div>
     </main>
