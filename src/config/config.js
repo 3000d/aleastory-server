@@ -9,8 +9,8 @@ module.exports = {
   BUTTON_PIN: process.env.BUTTON_PIN || 21,
   BUTTON_COOL_OFF_DELAY: 1000,
 
-  LED_GREEN_PIN: process.env.LED_GREEN_PIN || 14,
-  LED_RED_PIN: process.env.LED_RED_PIN || 15,
+  LED_GREEN_PIN: process.env.LED_GREEN_PIN || 16,
+  LED_RED_PIN: process.env.LED_RED_PIN || 20,
 
   IMG_ACCEPTED_EXTENSIONS: ['png', 'jpg', 'jpeg'],
 
