@@ -11,5 +11,9 @@ module.exports = {
       taken[x] = --len;
     }
     return result;
+  },
+
+  rand: (array) => {
+    return array[Math.floor(Math.random() * array.length)];
   }
 };

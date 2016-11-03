@@ -38,6 +38,15 @@ Use this tutorial to auto mount a USB drive : http://www.techjawab.com/2013/06/h
 - In dev env : `npm run dev`
 - In prod env : `npm run prod`
 
+### pm2
+
+PM2 is a production process manager for Node.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and to facilitate common system admin tasks.
+https://github.com/Unitech/pm2
+
+`sudo pm2 start npm --name aleastory -- run dev`
+
+Logs: `sudo pm2 log aleastory`
+
 ## HTTP Server for debug
 
 A HTTP Server is available for you to play with the printer. run `cd src/web && node run.js`.

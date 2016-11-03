@@ -7,6 +7,8 @@
   "dependencies": {
     "app-module-path": "^1.0.4",
     "finalhandler": "^0.4.0",
+    "html-entities": "^1.2.0",
+    "iconv-lite": "^0.4.13",
     "markdown": "^0.5.0",
     "onoff": "^1.0.3",
     "request": "^2.76.0",

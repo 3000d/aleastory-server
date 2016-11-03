@@ -9,7 +9,7 @@ var markdown = require('markdown').markdown;
 var getRandom = require('util/Util').getRandom;
 var config = require('config/config');
 var Parser = require('text/Parser');
-var GooglePoetry = require('text/GooglePoetry');
+var GooglePoetry = require('text/googlePoetry/GooglePoetry');
 
 class Printer extends EventEmitter {
   constructor(serialPort) {
@@ -76,16 +76,14 @@ class Printer extends EventEmitter {
   }
 
   printGooglePoetry(query) {
-    new GooglePoetry(query, (results) => {
-      logger.info('printing Google Poetry ', query);
-      results = getRandom(results, 4);
-
+    new GooglePoetry(query, (payload) => {
+      logger.info('printing Google Poetry ', payload.query, payload.results);
       if(this.isReady) {
         this.emit('printStarted');
 
         // Title
         this.printer.center().bold(true);
-        this.printText(query);
+        this.printer.printText(query);
         this.printer
           .printLine()
           .bold(false)
@@ -94,14 +92,23 @@ class Printer extends EventEmitter {
           .printLine();
 
         // Results
-        for(var i = 0; i < results.length; i++) {
-          this.printer.printText(results[i]);
+        for(var i = 0; i < payload.results.length; i++) {
+          this.printer
+            .printText(payload.results[i])
+            .printLine();
         }
 
         this.printer
+          .printLine();
+
+        this.printer
+          .inverse(true)
+          .printText('Google Poetry')
+          .inverse(false);
+
+        this.printer
           .printLine().printLine().printLine()
-          .printLine().printLine().printLine()
-          .printLine().printLine().printLine();
+          .printLine().printLine();
 
         this.printer.print(function() {
           logger.info('Printing done.');
