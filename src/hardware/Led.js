@@ -12,6 +12,8 @@ class Led extends EventEmitter {
     this.pin = pin;
     this.state = false;
     this.name = name;
+
+    this.start();
   }
 
   start() {

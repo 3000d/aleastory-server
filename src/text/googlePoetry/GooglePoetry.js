@@ -43,7 +43,7 @@ class GooglePoetry {
             }
             callback({
               query,
-              results: Util.getRandom(results, results.length < 4 ? results.length : 4)
+              results: Util.getRandom(results, results.length < 3 ? results.length : 3)
             });
           } else {
             console.error('Error parsing google suggest results', err);

@@ -9,7 +9,8 @@ module.exports = [
       'Est-ce que', 'Pourquoi', 'Je ne veux plus',
       'Je me souviens', 'Il se souvient', 'Elle se souvient',
       'Je suis u', 'Je suis l', 'Pourquoi l', 'Pourquoi j',
-      'Aujourd\'hui je p', 'que faire quand'
+      'Aujourd\'hui je p', 'que faire quand',
+      'j\'ai un petit'
     ]
   },
   {

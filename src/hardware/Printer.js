@@ -77,13 +77,18 @@ class Printer extends EventEmitter {
 
   printGooglePoetry(query) {
     new GooglePoetry(query, (payload) => {
+      if(!payload || !payload.query || !payload.results) {
+        logger.info('Nothing to print');
+        return;
+      }
+
       logger.info('printing Google Poetry ', payload.query, payload.results);
       if(this.isReady) {
         this.emit('printStarted');
 
         // Title
         this.printer.center().bold(true);
-        this.printer.printText(query);
+        this.printer.printText(payload.query);
         this.printer
           .printLine()
           .bold(false)

@@ -7,14 +7,14 @@ module.exports = {
   PRINTER_SERIAL_BAUDRATE: process.env.PRINTER_SERIAL_BAUDRATE || 19200,
 
   BUTTON_PIN: process.env.BUTTON_PIN || 21,
-  BUTTON_COOL_OFF_DELAY: 1000,
+  BUTTON_COOL_OFF_DELAY: 10000,
 
-  LED_GREEN_PIN: process.env.LED_GREEN_PIN || 16,
-  LED_RED_PIN: process.env.LED_RED_PIN || 20,
+  LED_GREEN_PIN: process.env.LED_GREEN_PIN || 5,
+  LED_RED_PIN: process.env.LED_RED_PIN || 6,
 
   IMG_ACCEPTED_EXTENSIONS: ['png', 'jpg', 'jpeg'],
 
-  DB_NAME: "aleastory.db",
+  DB_NAME: "alegastory.db",
 
   isDebug: function() {
     return this.NODE_ENV == "development";
